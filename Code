@@ -1,0 +1,495 @@
+package notepad;//package name
+import java.awt.*; // import statement
+import java.awt.event.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import javax.swing.text.BadLocationException;
+
+public class Notepad extends JFrame implements ActionListener, WindowListener{
+     
+     int i=0;
+     int x1=100, y1=200, x2=200, y2=200, x3=400, y3=200, x4=400, y4=400, x5=250, y5=250;
+     JTextArea t1 = new JTextArea(); // declaring a text area
+        PaintPanel t2 = new PaintPanel(); // declaring a paint panel for shapes functions
+           
+        JLabel label= new JLabel("ENTER WORD TO BE SEARCHED");
+        JTextField tf= new JTextField("");
+        JButton find= new JButton("Find");
+
+         JDialog jd=new JDialog();
+         JDialog d= new JDialog();
+         JDialog d2= new JDialog();
+
+          JPanel p1 = new JPanel();
+        JPanel p2 = new JPanel();
+        JPanel p3 = new JPanel();
+        JPanel p4= new JPanel();
+
+         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+         String[] font=ge.getAvailableFontFamilyNames();// to create list of all available fonts available
+                   JList list=new JList(font);
+                   JComboBox jc1=new JComboBox(font);
+                   String [] fontStyle={"Plain","Italic","Bold"};//declaring font style
+                   JComboBox jc2=new JComboBox(fontStyle);
+                   String [] Size={"1","5","10","15","20","25","30"};//declaring different sizes
+                   JComboBox jc3=new JComboBox(Size);
+                   
+        
+
+         
+    Notepad() throws BadLocationException {
+
+        JFrame f = new JFrame(); //creating frame
+        f.setLocationRelativeTo(null);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.setSize(500, 500);
+        f.setVisible(true);
+        f.setLayout(new GridLayout(3, 0));
+     
+        JMenuBar mb = new JMenuBar();// creating menubar
+
+        JMenu jm1 = new JMenu("File");
+        JMenu jm2 = new JMenu("Edit");
+        JMenu jm3 = new JMenu("Format");
+        JMenu jm4 = new JMenu("Shapes");
+        JMenu jm5 = new JMenu("Function");
+//adding menu items to the menu bar
+
+        JMenuItem ji1 = new JMenuItem("New");
+        JMenuItem ji2 = new JMenuItem("Load");
+        JMenuItem ji3 = new JMenuItem("Save");
+        JMenuItem ji4 = new JMenuItem("Exit");
+
+        JMenuItem ji5 = new JMenuItem("Cut");
+        JMenuItem ji6 = new JMenuItem("Copy");
+        JMenuItem ji7 = new JMenuItem("Paste");
+
+        JMenuItem ji8 = new JMenuItem("Font");
+        JMenuItem ji9 = new JMenuItem("UpperCase");
+        JMenuItem ji10 = new JMenuItem("LowerCase");
+
+        JMenuItem ji11 = new JMenuItem("Oval");
+        JMenuItem ji12 = new JMenuItem("Circle");
+        JMenuItem ji13 = new JMenuItem("Rectangle");
+        JMenuItem ji14 = new JMenuItem("Square");
+        JMenuItem ji15= new JMenuItem("Rounded Rectangle");
+
+        JMenuItem ji16 = new JMenuItem("Find");
+        JMenuItem ji17 = new JMenuItem("Replace");
+        JMenuItem ji18 = new JMenuItem("Replace All");
+        JMenuItem ji19= new JMenuItem("Count");
+  
+        jm1.add(ji1);// adding menuitems to frame
+        jm1.add(ji2);
+        jm1.add(ji3);
+        jm1.add(ji4);
+
+        jm2.add(ji5);
+        jm2.add(ji6);
+        jm2.add(ji7);
+
+        jm3.add(ji8);
+        jm3.add(ji9);
+        jm3.add(ji10);
+
+        jm4.add(ji11);
+        jm4.add(ji12);
+        jm4.add(ji13);
+        jm4.add(ji14);
+        jm4.add(ji15);
+
+        jm5.add(ji16);
+        jm5.add(ji17);
+        jm5.add(ji18);
+       jm5.add(ji19);
+
+        mb.add(jm1); // adding menus to menubar
+        mb.add(jm2);
+        mb.add(jm3);
+        mb.add(jm4);
+        mb.add(jm5);
+
+     p4.setLayout(new FlowLayout());
+     p4.add(jc1);// adding comboboxes to panel
+     p4.add(jc2);
+     p4.add(jc3);
+
+     d.add(p4);
+    d.setSize(500,500);
+     d.setLayout(new GridLayout(2,1));
+
+     d2.setSize(200,200);
+        d2.add(label);
+        d2.add(tf);
+        d2.add(find);
+
+     
+t1.setSize(1500,1500);
+t2.getPreferredSize();
+t1.getPreferredScrollableViewportSize();
+
+         JScrollPane sc=new JScrollPane(t1);
+        sc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        sc.setPreferredSize(new Dimension(250, 145));
+        sc.setMinimumSize(new Dimension(10, 10));
+
+        p1.add(mb);       
+        p2.add(t1);
+        p3.add(t2);
+        p2.setLayout(new GridLayout(2,1));
+        p3.setLayout(new GridLayout(2,1));
+
+
+        f.add(p1);
+        f.add(p2);
+        f.add(p3);
+
+        ji1.addActionListener(this);
+        ji2.addActionListener(this);
+        ji3.addActionListener(this);
+        ji4.addActionListener(this);
+        ji5.addActionListener(this);
+        ji6.addActionListener(this);
+        ji7.addActionListener(this);
+        ji8.addActionListener(this);
+        ji9.addActionListener(this);
+        ji10.addActionListener(this);
+        ji11.addActionListener(this);
+        ji12.addActionListener(this);
+        ji13.addActionListener(this);
+        ji14.addActionListener(this);
+        ji15.addActionListener(this);
+        ji16.addActionListener(this);
+        ji17.addActionListener(this);
+        ji18.addActionListener(this);
+        ji19.addActionListener(this);
+
+        jc3.addActionListener(this);
+        jc2.addActionListener(this);
+        jc1.addActionListener(this);
+       
+       find.addActionListener(this);
+    }
+
+    public static void main(String[] args) throws BadLocationException {
+        Notepad n1 = new Notepad();
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae) throws NullPointerException {
+       if(ae.getActionCommand()=="New") 
+       {
+         t1.setText(" ");
+       }
+       else if(ae.getActionCommand()=="Load")
+       {
+           FileDialog fd=new FileDialog(this,"Load",0);
+           fd.setVisible(true);
+           try {
+               FileReader fr=new FileReader(fd.getDirectory()+fd.getFile());
+               int data;
+                      String s="";
+                      while((data=fr.read())!=-1)
+                      {
+                          s= s+ (char)data;
+                      }
+                        t1.setText(s);
+                        fr.close();
+           } 
+           catch (IOException ex)
+           {
+               //nothing to do
+           }
+       }
+       else if(ae.getActionCommand()=="Save")
+       {
+           try{
+           FileDialog fd= new FileDialog(this,"Save",1);
+                      fd.setVisible(true);
+                      
+                      FileWriter fw;
+           
+               fw = new FileWriter(fd.getDirectory()+fd.getFile());
+            
+           
+                       
+                     fw.write(t1.getText());
+                      
+                     fw.close();
+       }
+           catch (IOException ex) {
+              
+           }
+        
+         }
+       else if(ae.getActionCommand()=="Exit")
+       {
+           int choice=     JOptionPane.showConfirmDialog( this,
+                                             "Do you want to exit",
+                                             "EXIT",
+                                              JOptionPane.YES_NO_OPTION,
+                                              JOptionPane.QUESTION_MESSAGE);
+              
+                  if(choice==0)
+                  {
+                     System.exit(0);
+                  }
+                  
+           }
+       else if(ae.getActionCommand()=="Cut")
+       
+           t1.cut();
+       
+           else if(ae.getActionCommand()=="Copy")
+               t1.copy();
+               else if(ae.getActionCommand()=="Paste")
+                   t1.paste();
+               else if(ae.getActionCommand()=="Font")
+               { 
+                   
+                   d.setVisible(true);
+    }
+               if(ae.getActionCommand()=="Replace")
+        {
+            String S;
+            S= JOptionPane.showInputDialog("Ente the word/ String to be replaced");
+            String S1;
+            S1= JOptionPane.showInputDialog("Enter the replacement");
+            String S2= t1.getText();
+            String String_new;
+            String_new= S2.replaceFirst(S, S1);
+            t1.setText(String_new);
+        }
+        if(ae.getActionCommand()=="Replace All")
+        {
+            String S;
+            S= JOptionPane.showInputDialog("Ente the word/ Stirng to be replaced");
+            String S1;
+            S1= JOptionPane.showInputDialog("Enter the replacement");
+            String S2= t1.getText();
+            String String_new;
+            String_new= S2.replaceAll(S, S1);
+            t1.setText(String_new);
+        }
+               else if(ae.getActionCommand()=="LowerCase")
+               {   
+                   int m= t1.getText().indexOf(t1.getSelectedText().charAt(0));
+               int n= t1.getSelectedText().length();
+                   String s= (t1.getSelectedText()).toLowerCase();
+                   t1.setText(t1.getText().substring(0, m)+s+t1.getText().substring(m+n));
+               }
+               else if(ae.getActionCommand()=="UpperCase")
+               {int m= t1.getText().indexOf(t1.getSelectedText().charAt(0));
+               int n= t1.getSelectedText().length();
+                   String s= (t1.getSelectedText()).toUpperCase();
+                   t1.setText(t1.getText().substring(0, m)+s+t1.getText().substring(m+n));
+                  
+               }
+               else if(ae.getActionCommand()=="Count") 
+               { 
+                   int l= t1.getSelectedText().length();
+                   int w=0;
+                   int start= t1.getText().indexOf(t1.getSelectedText().charAt(0));
+                   int i;
+                   for(i=start;i<l+start;i++)
+                   {
+                       char ch= t1.getText().charAt(i);
+                       if(ch==' ')
+                       w++;
+                       
+                   }
+                   l=l-w;
+                   w=w+1;
+                String s =t1.getText();
+                t1.setText(s+"\n"+ " Number of words in selected text= "+ w+ "\n"+" Number of characters in selected text= "+l);
+               }
+
+               else if((JComboBox)(ae.getSource())==jc1||(JComboBox)(ae.getSource())==jc2|| (JComboBox)(ae.getSource())==jc3) 
+               { String s1= String.valueOf(jc1.getSelectedItem());
+     String s2= String.valueOf(jc2.getSelectedItem());
+     int s3= Integer.valueOf((String)jc3.getSelectedItem());
+     if(s2.equalsIgnoreCase("Plain"))
+             {
+             Font f= new Font(s1, Font.PLAIN, s3);
+        t1.setFont(f);
+       
+    }
+     if(s2.equalsIgnoreCase("Italics"))
+             { 
+             Font f= new Font(s1, Font.ITALIC, s3);
+       t1.setFont(f);
+       
+    }
+     if(s2.equalsIgnoreCase("Bold"))
+             {
+             Font f= new Font(s1, Font.BOLD, s3);
+       t1.setFont(f);
+       
+    }   
+    }
+        else if(ae.getActionCommand()=="Oval")
+               {
+                   i=1;
+                  MovableOval();
+               }
+               else if(ae.getActionCommand()=="Rectangle")
+               {
+                   i=2;
+                   MovableRectangle();
+                   
+               }
+               else if(ae.getActionCommand()=="Square")
+               {
+                   i=3;
+                   MovableSquare();
+               }
+               else if(ae.getActionCommand()=="Rounded Rectangle")
+               {
+                   i=4;
+                   MovableRoundedRectangle();
+               }
+              else if(ae.getActionCommand()=="Find")
+               {   d2.setVisible(true);
+                   
+               }
+               else if((JButton)ae.getSource()==find)
+               {
+                   search();
+        }
+               
+    }
+    @Override
+    public void windowOpened(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosing(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowClosed(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowIconified(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowActivated(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent we) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+ void search() {
+		// Get the string from the editing area.
+		String editorText = t1.getText();
+		
+		// Get the string the user wants to search for
+		String searchValue = tf.getText();
+		
+		int start;
+		
+			start = editorText.lastIndexOf(searchValue, t1.getSelectionStart()-1);
+		
+		
+		// If the string was found, move the selection so that the found string is highlighted.
+		// (This is detail about using JTextArea that you don't really need to know.  Understanding the
+		// String methods is much more important.
+		if (start != -1) {
+			t1.setCaretPosition (start);
+			t1.moveCaretPosition (start + searchValue.length());
+			t1.getCaret().setSelectionVisible(true);
+		}
+}
+
+
+ public  class PaintPanel extends JPanel{
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+            switch(i){
+                case 1: g.drawRect(10, 10, x1-10, y1-30);
+                      repaint();
+                      break;
+                case 2: g.drawRect(10,10,x2-10,x2-10);
+                      repaint();
+                      break;
+                      break;
+                case 3: g.drawOval(10,10,x3-10, y3-30);
+                      repaint();
+                      break;
+                case 4: g.drawOval(10,10,x4-10, x4-10);
+                      repaint();
+                      break;
+                case 5: g.drawRoundRect(10, 10,x5-10, y5-10, x5-100, y5-100);
+                      repaint();
+                     break;
+            }
+        }
+    }
+        public void MovableRectangle(){
+            addMouseMotionListener(new MouseMotionAdapter(){
+                public void mouseDragged(MouseEvent e){
+                    x1 = e.getX();
+                    y1 = e.getY();
+                    repaint();
+                }
+            });
+        }
+        public void MovableCircle(){
+            addMouseMotionListener(new MouseMotionAdapter(){
+                public void mouseDragged(MouseEvent e){
+                    x4 = e.getX();
+                    y4 = e.getY();
+                    repaint();
+                }
+            });
+        }
+
+        public void MovableSquare(){
+            addMouseMotionListener(new MouseMotionAdapter(){
+                public void mouseDragged(MouseEvent e){
+                    x2 = e.getX();
+                    y2 = e.getY();
+                    repaint();
+                }
+            });
+        }
+
+        public void MovableOval(){
+            addMouseMotionListener(new MouseMotionAdapter(){
+                public void mouseDragged(MouseEvent e){
+                    x3 = e.getX();
+                    y3 = e.getY();
+                    repaint();
+                }
+            });
+        }
+        public void MovableRoundedRectangle() {
+            addMouseMotionListener(new MouseMotionAdapter(){
+                public void mouseDragged(MouseEvent e){
+                    x5=e.getX();
+                    y5=e.getY();
+                    repaint();
+                }
+            });
+        }
+        
+    }
